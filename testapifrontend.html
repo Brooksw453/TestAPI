@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude LLM Interface</title>
+</head>
+<body>
+  <h1>Send a prompt to Claude LLM</h1>
+  <input type="text" id="prompt-input">
+  <br>
+  <button onclick="sendPrompt()">Send Prompt</button>
+  <br>
+  <div id="completion-output"></div>
+
+  <script>
+    function sendPrompt() {
+      const prompt = document.getElementById("prompt-input").value;
+
+      fetch("/api/prompt", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          document.getElementById("completion-output").innerHTML = data.completion;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  </script>
+</body>
+</html>
